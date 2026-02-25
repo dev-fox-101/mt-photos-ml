@@ -106,3 +106,56 @@ docker pull devfox101/mt-photos-ml:v2.5.6-openvino
 
 docker run -i -p 8060:3003 -e API_AUTH_KEY=mt_photos_ai_extra --device /dev/dri:/dev/dri -v /mnt/mt-photos/ml-cache:/cache --name mt-photos-ml --restart="unless-stopped" devfox101/mt-photos-ml:v2.5.6-openvino
 ```
+
+---
+
+## 添加api使用
+
+返回MT Photos的系统设置中，在智能识别API 和 人脸识别API配置中；
+
+**接口地址** 填写 **http://[nas的IP]:8060**
+
+**API_AUTH_KEY** 填写 **mt_photos_ai_extra**
+
+---
+
+### 清除旧数据+重新识别
+
+--- 
+
+#### CLIP
+
+如果之前已经使用`mtphotos/mt-photos-ai`处理了 **CLIP识别**；
+
+由于模型的变化，需要清除旧数据后重新识别，操作步骤为： 
+
+- 1、关闭CLIP识别，并且确认当前没有在执行的后台任务
+- 2、在系统维护工具中，执行 **【CLIP识别】- 清空识别结果，然后重新识别所有照片** 任务
+- 3、等待后台任务中 **重置CLIP识别状态中** 任务完成后，再开启CLIP识别
+- 4、等待 CLIP识别识别完成
+
+--- 
+
+#### 文本识别 
+
+文本识别 **不需要**清空旧数据+重新识别；
+
+--- 
+
+#### 人脸识别 
+
+如果之前使用的是 `devfox101/mt-photos-insightface-unofficial` 或者 `devfox101/mt-photos-ai` 镜像，并且人脸识别模型是默认的 buffalo_l 模型，那么**不需要**清空旧数据+重新识别；
+
+如果之前使用的不是insightface相关的镜像， 可以按这个步骤清空数据重新识别：
+
+- 1、先关闭人脸识别开关，确认没有正在运行的人脸识别任务；
+
+- 2、在工具=>系统维护工具 中执行 【人物相册】- 重建全部数据。建议在清空识别结果前，对数据库进行一次备份；
+
+- 3、等待后台任务中数据清除任务完成之后，再切换内置识别模型或人脸识别API
+
+- 4、填写API配置，注意：当换了人脸识别的API后，请检查人脸置信度和匹配差异值阈值是否为安装教程中推荐的值
+
+- 5、最后打开人脸识别开关，查看后台任务信息
+
+
