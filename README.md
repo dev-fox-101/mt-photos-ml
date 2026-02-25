@@ -5,5 +5,6 @@
 
 镜像原始代码地址：
 
-https://github.com/immich-app/immich/blob/main/machine-learning/
+https://github.com/immich-app/immich/tree/v2.5.6/machine-learning
+
 
