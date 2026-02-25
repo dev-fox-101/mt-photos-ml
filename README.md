@@ -1,18 +1,29 @@
 # MT Photos 智能识别+人脸识别API
 
-基于 immich-machine-learning:v2.5.6 镜像构建，针对MT Photos 的CLIP识别、文本识别、人脸识别的API请求和返回数据格式，在原始镜像中修改了main.py部分代码；
+基于 immich-machine-learning:v2.5.6 镜像构建，为MT Photos 提供CLIP识别、文本识别、人脸识别的API；
+
+修改了main.py部分代码，重新打包镜像覆盖/usr/src/immich_ml/main.py文件；
+
+
+- CLIP识别模型使用 `XLM-Roberta-Base-ViT-B-32__laion5b_s13b_b90k`
+  - 这个模型相较于官方镜像中的 cn-clip 模型，解决了不认识颜色的问题
+- OCR识别模型使用 `PP-OCRv5_mobile`
+  - 与官方镜像效果差不多 
+- 人脸识别模型使用 `buffalo_l`
+  - 与官方镜像效果一样
 
 
 镜像原始代码地址：
 
 https://github.com/immich-app/immich/tree/v2.5.6/machine-learning
 
+---
+本项目GitHub代码仓库地址：
 
-gitHub代码仓库地址：
 https://github.com/dev-fox-101/mt-photos-ml
 
 
-## 镜像说明
+## docker镜像说明
 
 DockerHub镜像仓库地址：
 https://hub.docker.com/r/devfox101/mt-photos-ml
