@@ -22,7 +22,9 @@ https://github.com/immich-app/immich/tree/v2.5.6/machine-learning
 
 https://github.com/dev-fox-101/mt-photos-ml
 
+
 使用教程：
+
 https://mtmt.tech/docs/advanced/ml/
 
 
