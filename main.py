@@ -269,7 +269,7 @@ def trans_ocr_result(result: Any) -> dict[str, Any]:
     return {'texts': texts, 'scores': scores, 'boxes': boxes}
 
 
-@app.post("/ocr")
+@app.post("/ocr", dependencies=[Depends(update_state)])
 async def ocr_endpoint(
         file: bytes = File(..., description="Image file"),
         api_key: str = Depends(verify_header)
@@ -353,7 +353,7 @@ def parse_pipeline_request(request: PipelineRequest) -> InferenceEntries:
     return without_deps, with_deps
 
 
-@app.post("/clip/img")
+@app.post("/clip/img", dependencies=[Depends(update_state)])
 async def clip_process_image(
         file: bytes = File(..., description="Image file"),
         api_key: str = Depends(verify_header)
@@ -394,7 +394,7 @@ async def clip_process_image(
         return {'result': [], 'msg': str(e)}
 
 
-@app.post("/clip/txt")
+@app.post("/clip/txt", dependencies=[Depends(update_state)])
 async def clip_process_txt(
         request: ClipTxtRequest,
         api_key: str = Depends(verify_header)
@@ -427,7 +427,7 @@ async def clip_process_txt(
         return {'result': [], 'msg': str(e)}
 
 
-@app.post("/represent")
+@app.post("/represent", dependencies=[Depends(update_state)])
 async def represent_endpoint(
         file: bytes = File(..., description="Image file"),
         content_type: str = Header(default="image/jpeg", alias="content-type"),
