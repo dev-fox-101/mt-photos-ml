@@ -1,6 +1,6 @@
 # MT Photos 智能识别+人脸识别API
 
-基于 immich-machine-learning:v2.5.6 镜像构建，为MT Photos 提供CLIP识别、文本识别、人脸识别的API；
+基于 immich-machine-learning:v2.7.5 镜像构建，为MT Photos 提供CLIP识别、文本识别、人脸识别的API；
 
 修改了原始镜像中main.py部分代码，重新打包镜像覆盖/usr/src/immich_ml/main.py文件；
 
@@ -15,7 +15,7 @@
 
 镜像原始代码地址：
 
-https://github.com/immich-app/immich/tree/v2.5.6/machine-learning
+https://github.com/immich-app/immich/tree/v2.7.5/machine-learning
 
 ---
 本项目GitHub代码仓库地址：
@@ -35,11 +35,16 @@ https://hub.docker.com/r/devfox101/mt-photos-ml
 
 镜像Tags说明：
 
-- `devfox101/mt-photos-ml:v2.5.6`：x86架构的CPU处理识别任务，所有Intel、AMD 处理器都可以运行这个镜像
-- `devfox101/mt-photos-ml:v2.5.6-arm`：arm64架构的CPU处理识别任务， arm架构的nas、以及m系列芯片的mac可以运行这个镜像
-- `devfox101/mt-photos-ml:v2.5.6-cuda`：Nvidia显卡使用GPU处理识别任务，需要Nvidia显卡
-- `devfox101/mt-photos-ml:v2.5.6-openvino`：Intel CPU使用OpenVINO调用核显或者独立显卡处理识别任务
+- `devfox101/mt-photos-ml:v2.7.5`：x86架构的CPU处理识别任务，所有Intel、AMD 处理器都可以运行这个镜像
+- `devfox101/mt-photos-ml:v2.7.5-arm`：arm64架构的CPU处理识别任务， arm架构的nas、以及m系列芯片的mac可以运行这个镜像
+- `devfox101/mt-photos-ml:v2.7.5-cuda`：Nvidia显卡使用GPU处理识别任务，需要Nvidia显卡
+- `devfox101/mt-photos-ml:v2.7.5-openvino`：Intel CPU使用OpenVINO调用核显或者独立显卡处理识别任务
+- `devfox101/mt-photos-ml:v2.7.5-rocm`：AMD显卡使用GPU处理识别任务，需要AMD显卡
+- `devfox101/mt-photos-ml:v2.7.5-rknn`：Rockchip使用GPU处理识别任务，支持RK3566, RK3568, RK3576 and RK3588
+- `devfox101/mt-photos-ml:v2.7.5-armnn`：ARM Mali GPU使用GPU处理识别任务
 
+详细的硬件加速配置，请查看：
+https://docs.immich.app/features/ml-hardware-acceleration/
 
 ## 支持配置的环境变量
 
@@ -85,31 +90,31 @@ https://hub.docker.com/r/devfox101/mt-photos-ml
 
 x86 CPU：
 ```bash
-docker pull devfox101/mt-photos-ml:v2.5.6
+docker pull devfox101/mt-photos-ml:v2.7.5
 
-docker run -i -p 8060:3003 -e API_AUTH_KEY=mt_photos_ai_extra -v /mnt/mt-photos/ml-cache:/cache --name mt-photos-ml --restart="unless-stopped" devfox101/mt-photos-ml:v2.5.6
+docker run -i -p 8060:3003 -e API_AUTH_KEY=mt_photos_ai_extra -v /mnt/mt-photos/ml-cache:/cache --name mt-photos-ml --restart="unless-stopped" devfox101/mt-photos-ml:v2.7.5
 ```
 
 arm64 CPU：
 ```bash
-docker pull devfox101/mt-photos-ml:v2.5.6-arm
+docker pull devfox101/mt-photos-ml:v2.7.5-arm
 
-docker run -i -p 8060:3003 -e API_AUTH_KEY=mt_photos_ai_extra -v /mnt/mt-photos/ml-cache:/cache --name mt-photos-ml --restart="unless-stopped" devfox101/mt-photos-ml:v2.5.6-arm
+docker run -i -p 8060:3003 -e API_AUTH_KEY=mt_photos_ai_extra -v /mnt/mt-photos/ml-cache:/cache --name mt-photos-ml --restart="unless-stopped" devfox101/mt-photos-ml:v2.7.5-arm
 ```
 
 
 cuda加速 ：
 ```bash
-docker pull devfox101/mt-photos-ml:v2.5.6-cuda
+docker pull devfox101/mt-photos-ml:v2.7.5-cuda
 
-docker run --gpus all -i -p 8060:3003 -e API_AUTH_KEY=mt_photos_ai_extra -v /mnt/mt-photos/ml-cache:/cache --name mt-photos-ml --restart="unless-stopped" devfox101/mt-photos-ml:v2.5.6-cuda
+docker run --gpus all -i -p 8060:3003 -e API_AUTH_KEY=mt_photos_ai_extra -v /mnt/mt-photos/ml-cache:/cache --name mt-photos-ml --restart="unless-stopped" devfox101/mt-photos-ml:v2.7.5-cuda
 ```
 
 openvino加速 ：
 ```bash
-docker pull devfox101/mt-photos-ml:v2.5.6-openvino
+docker pull devfox101/mt-photos-ml:v2.7.5-openvino
 
-docker run -i -p 8060:3003 -e API_AUTH_KEY=mt_photos_ai_extra --device /dev/dri:/dev/dri -v /mnt/mt-photos/ml-cache:/cache --name mt-photos-ml --restart="unless-stopped" devfox101/mt-photos-ml:v2.5.6-openvino
+docker run -i -p 8060:3003 -e API_AUTH_KEY=mt_photos_ai_extra --device /dev/dri:/dev/dri -v /mnt/mt-photos/ml-cache:/cache --name mt-photos-ml --restart="unless-stopped" devfox101/mt-photos-ml:v2.7.5-openvino
 ```
 
 
@@ -145,7 +150,7 @@ services:
 # 修改下面这部分：   
 # =======================     
   mtphotos_ai: 
-    image: devfox101/mt-photos-ml:v2.5.6  # tag v2.5.6可以根据运行的环境替换为 v2.5.6-arm 、 v2.5.6-cuda 、 v2.5.6-openvino
+    image: devfox101/mt-photos-ml:v2.7.5  # tag v2.7.5可以根据运行的环境替换为 v2.7.5-arm 、 v2.7.5-cuda 、 v2.7.5-openvino
 #    runtime: nvidia  # 如果需要使用cuda，就取消这一行的注释
     container_name: mtphotos_ai
     restart: always
